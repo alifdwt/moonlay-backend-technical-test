@@ -49,7 +49,7 @@ func (h *SublistHandler) FindSublists(c echo.Context) error {
 			})
 	}
 
-	return c.JSON(http.StatusOK, dto.SuccessResult{Code: http.StatusOK, Data: sublists})
+	return c.JSON(http.StatusOK, dto.SuccessResult{Code: http.StatusOK, Message: "Success", Data: sublists})
 }
 
 // @Tags 		Sublists
@@ -71,7 +71,7 @@ func (h *SublistHandler) FindSublistById(c echo.Context) error {
 			})
 	}
 
-	return c.JSON(http.StatusOK, dto.SuccessResult{Code: http.StatusOK, Data: sublist})
+	return c.JSON(http.StatusOK, dto.SuccessResult{Code: http.StatusOK, Message: "Success", Data: sublist})
 }
 
 // @Tags 		Sublists
@@ -152,7 +152,7 @@ func (h *SublistHandler) CreateSublist(c echo.Context) error {
 			})
 	}
 
-	return c.JSON(http.StatusOK, dto.SuccessResult{Code: http.StatusOK, Data: data})
+	return c.JSON(http.StatusOK, dto.SuccessResult{Code: http.StatusOK, Message: "Sublist has been created", Data: data})
 }
 
 // @Tags 		Sublists
@@ -203,7 +203,7 @@ func (h *SublistHandler) UpdateSublist(c echo.Context) error {
 			})
 	}
 
-	return c.JSON(http.StatusOK, dto.SuccessResult{Code: http.StatusOK, Data: data})
+	return c.JSON(http.StatusOK, dto.SuccessResult{Code: http.StatusOK, Message: "Sublist has been updated", Data: data})
 }
 
 // @Tags 		Sublists
@@ -234,5 +234,5 @@ func (h *SublistHandler) DeleteSublist(c echo.Context) error {
 			})
 	}
 
-	return c.JSON(http.StatusOK, dto.SuccessResult{Code: http.StatusOK, Data: data})
+	return c.JSON(http.StatusOK, dto.SuccessResult{Code: http.StatusOK, Message: "Sublist has been deleted", Data: data})
 }

@@ -104,6 +104,7 @@ func checkAndCreateDatabase(DB *gorm.DB, dbName string) {
 
 func createDatabase(DB *gorm.DB, dbName string) {
 	result := DB.Exec(fmt.Sprintf("CREATE DATABASE %s", dbName))
+	// DB.Exec(fmt.Sprintf("INSERT INTO migrations (id, name, created_at) VALUES (1, 'create_database_%s', NOW())", dbName))
 	if result.Error != nil {
 		panic(result.Error)
 	}
