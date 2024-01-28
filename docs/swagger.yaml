@@ -1,0 +1,458 @@
+basePath: /api/v1
+definitions:
+  dto.ErrorResult:
+    properties:
+      code:
+        example: 500
+        type: integer
+      message:
+        example: internal server error
+        type: string
+    type: object
+  dto.SuccessResult:
+    properties:
+      code:
+        example: 200
+        type: integer
+      data: {}
+      message:
+        example: success
+        type: string
+    type: object
+  listsdto.ListRequest:
+    properties:
+      description:
+        example: My shopping list
+        type: string
+      title:
+        example: Shopping List
+        type: string
+    required:
+    - title
+    type: object
+  models.List:
+    properties:
+      created_at:
+        example: "2022-01-01T00:00:00Z"
+        type: string
+      description:
+        example: My shopping list
+        type: string
+      id:
+        example: 1
+        type: integer
+      sublists:
+        items:
+          $ref: '#/definitions/models.Sublist'
+        type: array
+      title:
+        example: Weekly Shopping List
+        type: string
+      updated_at:
+        example: "2022-01-01T00:00:00Z"
+        type: string
+    type: object
+  models.Sublist:
+    properties:
+      created_at:
+        example: "2022-01-01T00:00:00Z"
+        type: string
+      description:
+        example: Ultramilk 1 L
+        type: string
+      id:
+        example: 1
+        type: integer
+      list:
+        $ref: '#/definitions/models.List'
+      list_id:
+        example: 1
+        type: integer
+      title:
+        example: Get milk
+        type: string
+      updated_at:
+        example: "2022-01-01T00:00:00Z"
+        type: string
+    type: object
+  sublistsdto.SublistRequest:
+    properties:
+      description:
+        example: Ultramilk 1 L
+        type: string
+      list_id:
+        example: 1
+        type: integer
+      title:
+        example: Get milk
+        type: string
+    required:
+    - list_id
+    - title
+    type: object
+host: localhost:5000
+info:
+  contact:
+    email: aputradewantara@gmail.com
+    name: Alif Dewantara
+    url: https://github.com/alifdwt
+  description: To do list backend handlers
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  title: Moonlay Academy - Backend Test (GOLANG)
+  version: "1.0"
+paths:
+  /lists:
+    get:
+      consumes:
+      - application/json
+      description: Get all lists from database. Use query parameter to limit and offset
+      parameters:
+      - description: Limit number of lists by page (default 1)
+        in: query
+        name: page
+        type: integer
+      - description: Include sublists in response
+        in: query
+        name: withSublists
+        type: boolean
+      - description: Search list by title or description
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.SuccessResult'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.List'
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResult'
+      summary: Get all lists
+      tags:
+      - Lists
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Create list
+        in: body
+        name: list
+        required: true
+        schema:
+          $ref: '#/definitions/listsdto.ListRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.SuccessResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.List'
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResult'
+      summary: Create list
+      tags:
+      - Lists
+  /lists/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: List id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.SuccessResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.List'
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResult'
+      summary: Delete list
+      tags:
+      - Lists
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: List id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.SuccessResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.List'
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResult'
+      summary: Get list by id
+      tags:
+      - Lists
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: List id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update list
+        in: body
+        name: list
+        required: true
+        schema:
+          $ref: '#/definitions/listsdto.ListRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.SuccessResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.List'
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResult'
+      summary: Update list
+      tags:
+      - Lists
+  /sublists:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Limit number of sublists by page (default 1)
+        in: query
+        name: page
+        type: integer
+      - description: Search sublist by title or description
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.SuccessResult'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.Sublist'
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResult'
+      summary: Get all sublists
+      tags:
+      - Sublists
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Sublist request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/sublistsdto.SublistRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.SuccessResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Sublist'
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResult'
+      summary: Create sublist
+      tags:
+      - Sublists
+  /sublists/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: Sublist id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.SuccessResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Sublist'
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResult'
+      summary: Delete sublist
+      tags:
+      - Sublists
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Sublist id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.SuccessResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Sublist'
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResult'
+      summary: Get sublist by id
+      tags:
+      - Sublists
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Sublist id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update sublist
+        in: body
+        name: sublist
+        required: true
+        schema:
+          $ref: '#/definitions/sublistsdto.SublistRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.SuccessResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Sublist'
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResult'
+      summary: Update sublist
+      tags:
+      - Sublists
+  /sublists/list/{listId}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: List id
+        in: path
+        name: listId
+        required: true
+        type: integer
+      - description: Limit number of sublists by page (default 1)
+        in: query
+        name: page
+        type: integer
+      - description: Search sublist by title or description
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.SuccessResult'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.Sublist'
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.ErrorResult'
+      summary: Get sublist by list id
+      tags:
+      - Sublists
+swagger: "2.0"
