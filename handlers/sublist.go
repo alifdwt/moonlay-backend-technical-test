@@ -5,7 +5,9 @@ import (
 	sublistsdto "backend-technical-test/dto/sublists"
 	"backend-technical-test/models"
 	"backend-technical-test/repository"
+	"backend-technical-test/util"
 	"net/http"
+	"os"
 	"strconv"
 	"time"
 
@@ -143,6 +145,19 @@ func (h *SublistHandler) CreateSublist(c echo.Context) error {
 		UpdatedAt: time.Now(),
 	}
 
+	file, err := c.FormFile("file")
+	if err == nil {
+		filePath, err := util.SaveFile(file)
+		if err != nil {
+			return c.JSON(http.StatusInternalServerError,
+				dto.ErrorResult{
+					Code: http.StatusInternalServerError,
+					Message: err.Error(),
+				})
+		}
+		sublist.File = filePath
+	}
+
 	data, err := h.SublistRepository.CreateSublist(sublist)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError,
@@ -193,6 +208,28 @@ func (h *SublistHandler) UpdateSublist(c echo.Context) error {
 	}
 
 	sublist.UpdatedAt = time.Now()
+
+	file, err := c.FormFile("file")
+	if err == nil {
+		filePath, err := util.SaveFile(file)
+		if err != nil {
+			return c.JSON(http.StatusInternalServerError,
+				dto.ErrorResult{
+					Code: http.StatusInternalServerError,
+					Message: err.Error(),
+				})
+		}
+		if sublist.File != "" {
+			if err := os.Remove(sublist.File); err != nil {
+				return c.JSON(http.StatusInternalServerError,
+					dto.ErrorResult{
+						Code: http.StatusInternalServerError,
+						Message: err.Error(),
+					})
+			}
+		}
+		sublist.File = filePath
+	}
 
 	data, err := h.SublistRepository.UpdateSublist(sublist, sublistId)
 	if err != nil {

@@ -11,4 +11,5 @@ type Sublist struct {
 	List        List   `json:"list" gorm:"foreignKey:ListId"`
 	CreatedAt   time.Time `json:"created_at" example:"2022-01-01T00:00:00Z"`
 	UpdatedAt   time.Time `json:"updated_at" example:"2022-01-01T00:00:00Z"`
+	File		string	`json:"file" example:"uploads/file.pdf"`
 }

@@ -20,15 +20,6 @@ definitions:
         type: string
     type: object
   listsdto.ListRequest:
-    properties:
-      description:
-        example: My shopping list
-        type: string
-      title:
-        example: Shopping List
-        type: string
-    required:
-    - title
     type: object
   models.List:
     properties:
@@ -37,6 +28,9 @@ definitions:
         type: string
       description:
         example: My shopping list
+        type: string
+      file:
+        example: file.pdf
         type: string
       id:
         example: 1
@@ -60,6 +54,9 @@ definitions:
       description:
         example: Ultramilk 1 L
         type: string
+      file:
+        example: uploads/file.pdf
+        type: string
       id:
         example: 1
         type: integer
@@ -76,19 +73,6 @@ definitions:
         type: string
     type: object
   sublistsdto.SublistRequest:
-    properties:
-      description:
-        example: Ultramilk 1 L
-        type: string
-      list_id:
-        example: 1
-        type: integer
-      title:
-        example: Get milk
-        type: string
-    required:
-    - list_id
-    - title
     type: object
 host: localhost:5000
 info:

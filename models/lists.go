@@ -10,6 +10,7 @@ type List struct {
 	Sublists    []Sublist 	`json:"sublists" gorm:"foreignKey:ListId;references:Id"`
 	CreatedAt   time.Time 	`json:"created_at" example:"2022-01-01T00:00:00Z"`
 	UpdatedAt   time.Time 	`json:"updated_at" example:"2022-01-01T00:00:00Z"`
+	File		string		`json:"file" example:"file.pdf"`
 	// Priority    int    `json:"priority"`
 	// IsDone      bool   `json:"is_done"`
 	// UserId      int    `json:"user_id"`

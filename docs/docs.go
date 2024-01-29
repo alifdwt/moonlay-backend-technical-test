@@ -640,20 +640,7 @@ const docTemplate = `{
             }
         },
         "listsdto.ListRequest": {
-            "type": "object",
-            "required": [
-                "title"
-            ],
-            "properties": {
-                "description": {
-                    "type": "string",
-                    "example": "My shopping list"
-                },
-                "title": {
-                    "type": "string",
-                    "example": "Shopping List"
-                }
-            }
+            "type": "object"
         },
         "models.List": {
             "type": "object",
@@ -665,6 +652,10 @@ const docTemplate = `{
                 "description": {
                     "type": "string",
                     "example": "My shopping list"
+                },
+                "file": {
+                    "type": "string",
+                    "example": "file.pdf"
                 },
                 "id": {
                     "type": "integer",
@@ -697,6 +688,10 @@ const docTemplate = `{
                     "type": "string",
                     "example": "Ultramilk 1 L"
                 },
+                "file": {
+                    "type": "string",
+                    "example": "uploads/file.pdf"
+                },
                 "id": {
                     "type": "integer",
                     "example": 1
@@ -719,25 +714,7 @@ const docTemplate = `{
             }
         },
         "sublistsdto.SublistRequest": {
-            "type": "object",
-            "required": [
-                "list_id",
-                "title"
-            ],
-            "properties": {
-                "description": {
-                    "type": "string",
-                    "example": "Ultramilk 1 L"
-                },
-                "list_id": {
-                    "type": "integer",
-                    "example": 1
-                },
-                "title": {
-                    "type": "string",
-                    "example": "Get milk"
-                }
-            }
+            "type": "object"
         }
     }
 }`

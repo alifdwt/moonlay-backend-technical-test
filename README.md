@@ -68,7 +68,12 @@ You also can go to http://localhost:5000/swagger/index.html to see the documenta
 
 - Method: POST
 - Path: /lists
-- Parameters: JSON
+- Parameters:
+  - Body: {
+    "title": "Get milk",
+    "description": "Ultramilk 1 L",
+    "file": .pdf or .txt
+    }
 - Response: JSON
 
 #### Update List
@@ -77,7 +82,11 @@ You also can go to http://localhost:5000/swagger/index.html to see the documenta
 - Path: /lists/{id}
 - Parameters:
   - Path: id
-  - Body: JSON
+  - Body: {
+    "title": "Get milk",
+    "description": "Ultramilk 1 L",
+    "file": .pdf or .txt
+    }
 - Response: JSON
 
 #### Delete List
@@ -122,7 +131,11 @@ You also can go to http://localhost:5000/swagger/index.html to see the documenta
 - Method: POST
 - Path: /lists
 - Parameters:
-  - Body: JSON
+  - Body: {
+    "title": "Get milk",
+    "description": "Ultramilk 1 L",
+    "file": .pdf or .txt
+    }
 - Response: JSON
 
 #### Update Sublist
@@ -131,7 +144,11 @@ You also can go to http://localhost:5000/swagger/index.html to see the documenta
 - Path: /lists/{id}
 - Parameters:
   - Path: id
-  - Body: JSON
+  - Body: {
+    "title": "Get milk",
+    "description": "Ultramilk 1 L",
+    "file": .pdf or .txt
+    }
 - Response: JSON
 
 #### Delete Sublist
